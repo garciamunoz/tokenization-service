@@ -1,23 +1,16 @@
-# Imagen base
-FROM node:20-alpine
-
-# Crear directorio de trabajo
+# Etapa 1: build
+FROM node:18-alpine AS builder
 WORKDIR /app
-
-# Copiar package.json y package-lock.json
 COPY package*.json ./
-
-# Instalar dependencias
 RUN npm install
-
-# Copiar el resto del código
 COPY . .
-
-# Compilar TypeScript
 RUN npm run build
 
-# Puerto expuesto
+# Etapa 2: producción
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY package*.json ./
+RUN npm install --only=production
 EXPOSE 3000
-
-# Comando de inicio
 CMD ["node", "dist/index.js"]

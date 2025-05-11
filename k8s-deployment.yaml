@@ -6,34 +6,32 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: tokenization
+      app: tokenization-service
   template:
     metadata:
       labels:
-        app: tokenization
+        app: tokenization-service
     spec:
       containers:
-      - name: tokenization
-        image: your-dockerhub-username/tokenization-service:latest
-        ports:
-        - containerPort: 3000
-        env:
-        - name: AWS_REGION
-          value: "us-east-1"
-        - name: DDB_TABLE_NAME
-          value: "CardTokens"
-        - name: PK_ALLOWED
-          value: "pk_test_123456"
+        - name: tokenization-service
+          image: 423469511259.dkr.ecr.us-east-1.amazonaws.com/tokenization-service:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: AWS_REGION
+              value: "us-east-1"
+            - name: DYNAMODB_TABLE
+              value: "CardTokens"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: tokenization-service
 spec:
-  type: LoadBalancer
   selector:
-    app: tokenization
+    app: tokenization-service
   ports:
     - protocol: TCP
       port: 80
       targetPort: 3000
+  type: LoadBalancer
