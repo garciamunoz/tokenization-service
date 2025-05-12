@@ -6,7 +6,7 @@ const EXPIRATION_SECONDS = 15 * 60; // 15 minutos
 
 export default class TokenService {
   static async storeCardData(body: any): Promise<string> {
-    const token = crypto.randomBytes(8).toString('base64url'); // 16 caracteres URL-safe
+    const token = crypto.randomBytes(12).toString('base64url').slice(0, 16);
 
     const now = Math.floor(Date.now() / 1000);
     const expiration = now + EXPIRATION_SECONDS;

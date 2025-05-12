@@ -1,4 +1,6 @@
-import luhn = require('luhn-js');
+import luhn from 'luhn-js';
+const { isValid } = luhn;
+
 
 interface ValidationResult {
   valid: boolean;
@@ -28,7 +30,7 @@ export function validateCardInput(body: any): ValidationResult {
   }
 
   const numStr = String(card_number);
-  const isValid = luhn(numStr);
+  const valid = isValid(card_number);
   if (numStr.length < 13 || numStr.length > 16) {
     return { valid: false, message: 'card_number length must be 13–16' };
   }

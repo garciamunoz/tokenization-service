@@ -1,4 +1,8 @@
 declare module 'luhn-js' {
-  function luhn(cardNumber: string): boolean;
-  export = luhn;
+  const luhn: {
+    isValid: (cardNumber: string) => boolean;
+    generate: (cardNumber: string) => string;
+    getRemainder: (cardNumber: string) => number;
+  };
+  export default luhn;
 }

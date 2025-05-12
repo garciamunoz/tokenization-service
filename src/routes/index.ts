@@ -4,6 +4,6 @@ import TokenController from '../controllers/TokenController';
 const router = express.Router();
 
 router.post('/tokenize', TokenController.tokenizeCard);
-router.get('/card/:token', TokenController.getCardData);
+router.get('/detokenize/:token', TokenController.getCardData);
 
 export default router;
